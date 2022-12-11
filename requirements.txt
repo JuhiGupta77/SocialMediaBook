@@ -1,0 +1,2 @@
+# install pillow for InageField t be used in models file field
+# pip install Pillow
