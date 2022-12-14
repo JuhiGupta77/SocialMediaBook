@@ -25,12 +25,15 @@
                         <p></p>
                     </div>
                     <div class="bg-white rounded-md lg:shadow-lg shadow col-span-2">
+                        <!-- enctype="multipart/form-data" must be included in your form so that not only the text but
+                             image is also saved with the form once submitted -->
                         <form action="" method="POST" enctype="multipart/form-data">
                             {% csrf_token %}
                            <div class="grid grid-cols-2 gap-3 lg:p-6 p-4">
                                 <div class="col-span-2">
                                     <label for=''>Profile Image</label>
-                                    <img src="{{ user_profile.profileimg.url }}"/>
+                                    <img src="{{ user_profile.profileimg.url }}" width="100" height="100"/>
+                                    <br>
                                     <input type="file" name="image" value="" class="shadow-none bg-gray-100">
                                 </div>
                                 <div class="col-span-2">
