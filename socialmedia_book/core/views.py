@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User, auth
 from django.contrib import messages
 from django.http import HttpResponse
-from .models import Profile
+from .models import Profile, Post
 from django.contrib.auth.decorators import login_required
 
 
@@ -13,39 +13,42 @@ def index(request):
 
 
 @login_required(login_url='signin')
+def upload(request):
+    user_object = User.objects.get(username=request.user.username)
+    user_profile = Profile.objects.get(user=user_object)
+    print("upload:", upload)
+    return render(request, 'index.html', {'user_profile': user_profile})
+
+
+@login_required(login_url='signin')
 def account_settings(request):
-    try:
-        user_profile = Profile.objects.get(user=request.user)
-        print("user_profile:", user_profile)
-    except Profile.DoesNotExist:
-        user_profile = None
-        print("user_profile:", user_profile)
+    user_profile = Profile.objects.get(user=request.user)
+    print("user_profile:", user_profile)
 
-    if request.method == 'POST':
-        # as was defined input type="file" name="image" in account_settings.html page for image tag
-        # similarly are the bio and location tags
-        if request.FILES.get('image') is None:
-            image = request.FILES.get('image')
-            bio = request.POST['bio']
-            location = request.POST['location']
-            # updating user_profile
-            user_profile.profileimg = image
-            user_profile.bio = bio
-            user_profile.location = location
-            user_profile.save()
-
-        if request.FILES.get('image') is not None:
-            image = request.FILES.get('image')
-            bio = request.POST['bio']
-            location = request.POST['location']
-            # updating user_profile
-            user_profile.profileimg = image
-            user_profile.bio = bio
-            user_profile.location = location
-            user_profile.save()
-
-        return redirect('account_settings')
-
+    # if request.method == 'POST':
+    #     # as was defined input type="file" name="image" in account_settings.html page for image tag
+    #     # similarly are the bio and location tags
+    #     if request.FILES.get('image') is None:
+    #         image = user_profile.profileimg
+    #         bio = request.POST['bio']
+    #         location = request.POST['location']
+    #
+    #         user_profile.profileimg = image
+    #         user_profile.bio = bio
+    #         user_profile.location = location
+    #         user_profile.save()
+    #
+    #     if request.FILES.get('image') is not None:
+    #         image = request.FILES.get('image')
+    #         bio = request.POST['bio']
+    #         location = request.POST['location']
+    #
+    #         user_profile.profileimg = image
+    #         user_profile.bio = bio
+    #         user_profile.location = location
+    #         user_profile.save()
+    #
+    #     return redirect('account_settings')
     return render(request, 'account_settings.html', {'user_profile': user_profile})
 
 
