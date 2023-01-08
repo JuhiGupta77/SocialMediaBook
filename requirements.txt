@@ -1,2 +1,9 @@
 # install pillow for InageField t be used in models file field
 # pip install Pillow
+# pip install django
+
+# Create Virtual Environment
+# python3 -m venv djangoenv
+
+# Activate Virtual Environment
+# source djangoenv/bin/activate
